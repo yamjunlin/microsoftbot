@@ -5,6 +5,7 @@ var rp = require('request-promise');
 
 // Static variables that we can use anywhere in server.js
 var BINGSEARCHKEY = '4b0ad13a83c94bad9554a69c573b7ec9';
+var BINGIMAGEKEY = 'aa18e86e4f0f4fc98b29bfb6d7dc84b2';
 
 //=========================================================
 // Bot Setup
@@ -123,3 +124,47 @@ function sendTopNews(session, results, body){
         .attachments(cards);
     session.send(msg);
 }
+
+bot.dialog('/analyseImage', [
+    function (session){
+        builder.Prompts.text(session, "Send me an image link of it please.");
+    }, function (session, results){
+        var userResponse = results.response.entity;
+        session.endDialog("You selected: " + userResponse);
+        /*if (results.response && results.response.entity !== '(quit)') {
+            //Show user that we're processing their request by sending the typing indicator
+            session.sendTyping();
+            // Build the url we'll be calling to get image caption
+            var url = "https://westus.api.cognitive.microsoft.com/vision/v1.0/describe?maxCandidates=1";
+            // Build options for the request
+            var options = {
+            method: 'POST', // thie API call is a post request
+            uri: url,
+            headers: {
+                'Ocp-Apim-Subscription-Key': BINGIMAGEKEY,
+                'Content-Type': 'application/json'
+            },
+            body: {
+                url: results.response.entity
+            },
+            json: true
+        }
+
+            //Make the call
+            rp(options).then(function (body){
+                // The request is successful
+                sendTopNews(session, results, body);
+            }).catch(function (err){
+                // An error occurred and the request failed
+                console.log(err.message);
+                session.send("Argh, something went wrong. :( Try again?");
+            }).finally(function () {
+                // This is executed at the end, regardless of whether the request is successful or not
+                session.endDialog();
+            });
+        } else {
+            // The user choses to quit
+            session.endDialog("Ok. Mission Aborted.");
+        }*/
+    }
+]);
