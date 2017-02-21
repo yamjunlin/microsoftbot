@@ -5,6 +5,8 @@ var rp = require('request-promise');
 
 // Static variables that we can use anywhere in server.js
 var BINGSEARCHKEY = '4b0ad13a83c94bad9554a69c573b7ec9';
+var MICROSOFT_APP_ID: '72fc9d4c-329b-42f9-afbf-96c91e7c700d';
+var MICROSOFT_APP_PASSWORD: 'wseMm5S52BNuqeuaMLhWkeE';
 
 //=========================================================
 // Bot Setup
@@ -19,8 +21,8 @@ server.listen(process.env.port || process.env.PORT || 3978, function () {
 
 // Create chat bot
 var connector = new builder.ChatConnector({
-    appId: process.env.MICROSOFT_APP_ID,
-    appPassword: process.env.MICROSOFT_APP_PASSWORD
+    appId: process.env.MICROSOFT_APP_ID || MICROSOFT_APP_ID,
+    appPassword: process.env.MICROSOFT_APP_PASSWORD || MICROSOFT_APP_PASSWORD
 });
 var bot = new builder.UniversalBot(connector);
 // If a Post request is made to /api/messages on port 3978 of our local server, then we pass it to the bot connector to handle
