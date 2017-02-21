@@ -123,15 +123,15 @@ function sendTopNews(session, results, body){
         .attachmentLayout(builder.AttachmentLayout.carousel)
         .attachments(cards);
     session.send(msg);
-}
+};
 
 bot.dialog('/analyseImage', [
     function (session){
         builder.Prompts.text(session, "Send me an image link of it please.");
     }, function (session, results){
-        var userResponse = results.response.entity;
-        session.endDialog("You selected: " + userResponse);
-        /*if (results.response && results.response.entity !== '(quit)') {
+        //var userResponse = results.response;
+        //session.endDialog("You selected: " + userResponse);
+        if (results.response !== '(quit)') {
             //Show user that we're processing their request by sending the typing indicator
             session.sendTyping();
             // Build the url we'll be calling to get image caption
@@ -145,7 +145,7 @@ bot.dialog('/analyseImage', [
                 'Content-Type': 'application/json'
             },
             body: {
-                url: results.response.entity
+                url: results.response
             },
             json: true
         }
@@ -153,7 +153,7 @@ bot.dialog('/analyseImage', [
             //Make the call
             rp(options).then(function (body){
                 // The request is successful
-                sendTopNews(session, results, body);
+                session.send("I think it's " + body.description.captions[0].text + ".")
             }).catch(function (err){
                 // An error occurred and the request failed
                 console.log(err.message);
@@ -165,6 +165,6 @@ bot.dialog('/analyseImage', [
         } else {
             // The user choses to quit
             session.endDialog("Ok. Mission Aborted.");
-        }*/
+        }
     }
 ]);
